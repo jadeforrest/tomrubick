@@ -1,0 +1,87 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getGalleries } from '../lib/galleries';
+
+const galleries = getGalleries().filter((g) => g.artworks.length > 0);
+---
+
+<BaseLayout title="Thomas Rubick">
+  <p class="intro">
+    Thomas Rubick was a painter, illustrator, and designer with over thirty years of
+    professional experience. This site presents a selection of his work across
+    painting, drawing, design, ceramics, photography, and digital art.
+  </p>
+
+  <ul class="covers">
+    {
+      galleries.map((g) => (
+        <li class="cover">
+          <a href={`/${g.slug}`}>
+            <Image
+              src={g.artworks[0].image}
+              alt={`${g.label} by Thomas Rubick`}
+              widths={[300, 600]}
+              sizes="(max-width: 600px) 90vw, (max-width: 1000px) 45vw, 360px"
+              loading="lazy"
+            />
+            <span class="cover-label">{g.label}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</BaseLayout>
+
+<style>
+  .intro {
+    max-width: 40rem;
+    margin: 0 auto 2.5rem;
+    text-align: center;
+    font-size: 1.1rem;
+    color: var(--muted);
+  }
+  .covers {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+  .cover a {
+    display: block;
+    position: relative;
+    text-decoration: none;
+    background: #000;
+    overflow: hidden;
+  }
+  .cover img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 0.92;
+  }
+  .cover a:hover img,
+  .cover a:focus-visible img {
+    transform: scale(1.04);
+    opacity: 1;
+  }
+  .cover-label {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 1.5rem 1rem 0.9rem;
+    color: #fff;
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    letter-spacing: 0.02em;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.65));
+  }
+  .cover a:focus-visible {
+    outline: 2px solid var(--fg);
+    outline-offset: 2px;
+  }
+</style>

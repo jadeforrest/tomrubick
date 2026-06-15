@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ArtworkGrid from '../components/ArtworkGrid.astro';
+import Lightbox from '../components/Lightbox.astro';
+import { getGalleries, getGallery } from '../lib/galleries';
+
+export function getStaticPaths() {
+  return getGalleries().map((g) => ({ params: { category: g.slug } }));
+}
+
+const { category } = Astro.params;
+const gallery = getGallery(category!);
+if (!gallery) {
+  // Should be unreachable: paths come from getGalleries().
+  throw new Error(`Unknown gallery: ${category}`);
+}
+---
+
+<BaseLayout title={gallery.label} description={`${gallery.label} by Thomas Rubick.`}>
+  <h1 class="page-title">{gallery.label}</h1>
+  <ArtworkGrid gallery={gallery} />
+  <Lightbox />
+</BaseLayout>

@@ -1,0 +1,64 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// NOTE (Phase 3): this list was captured from the current Wix site and is partial
+// (it currently covers ~2005–2007 plus a summary of earlier years). Verify and
+// complete it against the Wix "Exhibits" page before launch.
+const exhibits = [
+  { year: '2007', text: '“The Last Exhibition,” a four-person show of nineteen paintings — Opus 6ix Gallery, Eugene (October)' },
+  { year: '2006', text: '“Look! Positive Sexuality in Art” — North Santiam Hall Gallery, Linn-Benton Community College, Albany (August)' },
+  { year: '2006', text: 'Community College Invitational — Opus 6ix Gallery, Eugene (January–March)' },
+  { year: '2005', text: '“12” Show” — Alder Gallery, Coburg (December)' },
+  { year: '2005', text: '“La Petite XIV” — Maude Kerns Art Center, Eugene' },
+  { year: '2005', text: '“Art for All Seasons” — Springfield Arts Commission (November–December)' },
+  { year: '2005', text: 'International Mail Art Exhibit — Jacobs Gallery, Eugene (September–October)' },
+  { year: '2005', text: 'Mayor’s Show — Gallery at the Airport, Eugene (September–October)' },
+  { year: '2005', text: '“For the Birds” — La Follette Gallery, Eugene (August–December)' },
+  { year: '2005', text: '“Pears: An Invitational Show” — DIVA Gallery, Eugene (June–July)' },
+];
+---
+
+<BaseLayout title="Exhibits" description="Selected exhibitions of Thomas Rubick's work.">
+  <h1 class="page-title">Exhibits</h1>
+  <div class="prose">
+    <ul class="exhibits">
+      {
+        exhibits.map((e) => (
+          <li>
+            <span class="year">{e.year}</span>
+            <span class="what" set:html={e.text} />
+          </li>
+        ))
+      }
+    </ul>
+    <p class="note">
+      Earlier exhibitions span 2000–2004 at venues including the Maude Kerns Art
+      Center, Lane Community College, and the University of Oregon, with shows dating
+      back to 1986.
+    </p>
+  </div>
+</BaseLayout>
+
+<style>
+  .exhibits {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .exhibits li {
+    display: flex;
+    gap: 1rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .year {
+    flex: 0 0 3rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--muted);
+  }
+  .note {
+    margin-top: 1.5rem;
+    color: var(--muted);
+    font-style: italic;
+  }
+</style>

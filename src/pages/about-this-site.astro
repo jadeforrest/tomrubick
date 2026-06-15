@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Contact from '../components/Contact.astro';
+---
+
+<BaseLayout title="About this site" description="About this archive of Thomas Rubick's artwork.">
+  <h1 class="page-title">About this site</h1>
+  <div class="prose">
+    <p>
+      This site is a tribute to Thomas Rubick and a place to gather his creative work
+      across many media and disciplines. It represents only a portion of his art.
+    </p>
+
+    <blockquote class="tribute">
+      “He had a kind and gentle soul and the heart of a poet.”
+      <cite>— Mara Popovich</cite>
+    </blockquote>
+
+    <h2>Contact</h2>
+    <Contact />
+  </div>
+</BaseLayout>
+
+<style>
+  .tribute {
+    font-family: var(--serif);
+    font-size: 1.3rem;
+    font-style: italic;
+    text-align: center;
+    margin: 2rem 0;
+    color: var(--muted);
+  }
+  .tribute cite {
+    display: block;
+    font-size: 0.95rem;
+    margin-top: 0.5rem;
+    font-style: normal;
+  }
+</style>

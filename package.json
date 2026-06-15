@@ -1,0 +1,20 @@
+{
+  "name": "tomrubick",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Static portfolio site for the artwork of Thomas (Tom) Rubick",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.2.1",
+    "astro": "^5.2.5",
+    "photoswipe": "^5.4.4",
+    "sharp": "^0.33.5"
+  }
+}

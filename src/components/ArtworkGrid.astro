@@ -1,0 +1,86 @@
+---
+import { Image, getImage } from 'astro:assets';
+import type { Gallery } from '../lib/galleries';
+import { artworkAlt } from '../lib/galleries';
+
+interface Props {
+  gallery: Gallery;
+}
+const { gallery } = Astro.props;
+const alt = artworkAlt(gallery);
+
+// Web-capped large image for the lightbox (never original/print resolution).
+const LARGE_MAX = 1800;
+
+const items = await Promise.all(
+  gallery.artworks.map(async (art) => {
+    // Don't upscale past the source.
+    const width = Math.min(LARGE_MAX, art.image.width);
+    const large = await getImage({
+      src: art.image,
+      width,
+      format: 'webp',
+      quality: 82,
+    });
+    // PhotoSwipe needs the dimensions of THIS derivative, not the original.
+    return {
+      art,
+      href: large.src,
+      width: large.attributes.width as number,
+      height: large.attributes.height as number,
+    };
+  }),
+);
+---
+
+<ul class="grid" id="gallery">
+  {
+    items.map(({ art, href, width, height }) => (
+      <li class="grid-item">
+        <a href={href} data-pswp-width={width} data-pswp-height={height} target="_blank" rel="noopener">
+          <Image
+            src={art.image}
+            alt={alt}
+            widths={[280, 560]}
+            sizes="(max-width: 600px) 45vw, (max-width: 1000px) 30vw, 260px"
+            loading="lazy"
+          />
+        </a>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  /* Masonry-style columns preserve each work's aspect ratio (no cropping). */
+  .grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    columns: 4 240px;
+    column-gap: 1.25rem;
+  }
+  .grid-item {
+    break-inside: avoid;
+    margin: 0 0 1.25rem;
+  }
+  .grid-item a {
+    display: block;
+    background: #fff;
+    border: 1px solid var(--rule);
+    transition: box-shadow 0.18s ease, transform 0.18s ease;
+  }
+  .grid-item a:hover,
+  .grid-item a:focus-visible {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+    transform: translateY(-2px);
+    outline: none;
+  }
+  .grid-item a:focus-visible {
+    outline: 2px solid var(--fg);
+    outline-offset: 2px;
+  }
+  .grid-item img {
+    width: 100%;
+  }
+</style>

@@ -1,0 +1,18 @@
+---
+// Fullscreen lightbox over the #gallery grid. PhotoSwipe gives keyboard arrow
+// navigation, zoom, swipe, fullscreen, and ESC out of the box. The grid anchors
+// link to the real image, so the gallery still works (as clickable images) if
+// this script fails to load.
+---
+
+<script>
+  import PhotoSwipeLightbox from 'photoswipe/lightbox';
+  import 'photoswipe/style.css';
+
+  const lightbox = new PhotoSwipeLightbox({
+    gallery: '#gallery',
+    children: 'a',
+    pswpModule: () => import('photoswipe'),
+  });
+  lightbox.init();
+</script>

@@ -1,0 +1,71 @@
+---
+// Contact details for Paulette Rubick Johnson, shown the same as the current site
+// but obfuscated against scrapers: the email is never present as a full address or
+// a raw `mailto:` in the HTML source. A small client script assembles the link;
+// a noscript fallback shows an entity-encoded form.
+
+interface Props {
+  /** Compact footer variant (no invitation paragraph). */
+  compact?: boolean;
+}
+const { compact = false } = Astro.props;
+
+// Split so the literal address never appears contiguously in source.
+const user = 'freevcnet';
+const domain = 'aol.com';
+const facebook = 'https://www.facebook.com/paulettejohnson';
+---
+
+<div class={`contact ${compact ? 'contact--compact' : ''}`}>
+  {
+    !compact && (
+      <p>
+        This site shows a portion of Tom's work. If you have additional images of his
+        art, or would like to talk about a piece, please get in touch with Paulette
+        Rubick Johnson.
+      </p>
+    )
+  }
+  <p class="contact-lines">
+    <span class="contact-email" data-user={user} data-domain={domain}>
+      {/* Populated by script; noscript fallback below. */}
+      <noscript>{user} [at] {domain.replace('.', ' [dot] ')}</noscript>
+    </span>
+    <span class="contact-sep" aria-hidden="true">·</span>
+    <a href={facebook} rel="me noopener" target="_blank">Facebook</a>
+  </p>
+</div>
+
+<script>
+  // Assemble the mailto link on the client so the address isn't harvestable
+  // from static HTML.
+  document.querySelectorAll<HTMLElement>('.contact-email').forEach((el) => {
+    const user = el.dataset.user;
+    const domain = el.dataset.domain;
+    if (!user || !domain) return;
+    const address = `${user}@${domain}`;
+    const link = document.createElement('a');
+    link.href = `mailto:${address}`;
+    link.textContent = address;
+    el.replaceChildren(link);
+  });
+</script>
+
+<style>
+  .contact p {
+    margin: 0 0 0.75rem;
+  }
+  .contact--compact p {
+    margin: 0;
+  }
+  .contact-lines {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    align-items: center;
+  }
+  .contact-sep {
+    opacity: 0.5;
+  }
+</style>
