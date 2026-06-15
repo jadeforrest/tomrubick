@@ -3,6 +3,7 @@
   "type": "module",
   "version": "0.1.0",
   "private": true,
+  "license": "UNLICENSED",
   "description": "Static portfolio site for the artwork of Thomas (Tom) Rubick",
   "scripts": {
     "dev": "astro dev",
