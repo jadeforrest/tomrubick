@@ -5,13 +5,48 @@ Git-tracked Astro site hosted on Cloudflare Pages.
 
 `[C]` = Claude, `[J]` = Jade.
 
+---
+
+# ▶ START HERE — next session
+
+Last worked: **2026-07-26**. Last commit: `08a95f7` (artwork import).
+Local `main` is **ahead of `origin`** — nothing since `729e279` has been pushed.
+
+**State:** the site is content-complete and building (10 pages, 58 real artworks)
+except for the Drawings gallery. Nothing is deployed yet.
+
+### Do these in order
+
+1. **[C] Finish the Drawings gallery** — the one real blocker, and the only visible
+   regression vs. the live site (no `/drawings` page, missing nav item).
+   See *Open issue #1* below for why it's hard and the two ways to resolve it.
+2. **[J] Push and connect Cloudflare Pages** — `git push`, then hook the repo up and
+   confirm the `*.pages.dev` preview builds. Do this *before* the remaining content
+   decisions so there's a real URL to review against.
+3. **[J] Decide on the 50 unpublished files** — *Open issue #2*.
+4. **[J] Proofread copy** + settle the "1988–present" exhibit year (`src/pages/exhibits.astro:39`).
+5. **[J] Cutover** — Phase 6, only once the preview looks right.
+
+### Quick facts worth not re-deriving
+- **Wix serves back byte-identical originals.** `https://static.wixstatic.com/media/<id>`
+  returns the exact file that was uploaded, so gallery membership can be established by
+  md5 rather than by eye. This is how all 58 imported files were mapped (58/58, 0 misses).
+- Six of seven galleries render **in-page** (slideshow, `button.Y0ItqY.vIDrnX` = next).
+  `/drawings` alone renders in a **cross-origin iframe** — that's the whole problem.
+- Wix `alt` attributes usually carry the **original filename**, occasionally a real title.
+- Wix pages take **10–25 s** to hydrate; anything that reads the DOM too early sees nothing.
+- Working scratch data (harvested IDs, checksum map, contact sheets) was in the session
+  scratchpad and is **gone**. Re-deriving it takes ~20 min with the notes above.
+
+---
+
 ## Phase 0 — Prep & backup
 - [ ] [J] Confirm access to Wix account, domain registrar/DNS, and Facebook
 - [ ] [J] Full Wix site/content export (safety net before any changes)
 - [x] [C] Download obituary PDF into `public/obituary-tom-rubick.pdf`
       ("P.S. I'm Dead" by Thomas Rubick, 1.0 MB; link verified serving 200)
 - [x] [C] Capture page copy from Wix (biography verified, full exhibits list captured)
-- [ ] [J] Provide 2–3 sample artworks to bootstrap
+- [x] [J] Provide artwork — superseded by the full export, see Phase 5
 
 ## Phase 1 — Scaffold
 - [x] [C] Create Astro project + project.md + .gitignore
@@ -25,9 +60,8 @@ Git-tracked Astro site hosted on Cloudflare Pages.
 - [x] [C] Validate full pipeline with sample images (placeholders — see note)
 - [ ] [J] Review gallery look/feel vs. current site
 
-> NOTE: `src/assets/galleries/` currently holds **placeholder** images (solid colors
-> labeled "PLACEHOLDER") so the build could be verified. Replace them with real
-> artwork in Phase 5 (just delete the placeholders and drop real files in the folders).
+> Placeholders are gone as of `08a95f7` — `src/assets/galleries/` now holds the real
+> artwork. See Phase 5.
 
 ## Phase 3 — Content pages
 - [x] [C] Biography (+ obituary PDF link, now working)
@@ -72,12 +106,73 @@ the picks in `_not-on-wix-site/drawings/` are Claude's visual classification, no
 site-derived. Resolve by either listing it from the Wix editor or clicking through
 the live gallery and matching by eye.
 
-### Also found
-- `/photography` and `/digital` were never built out — both still carry Wix's default
-  "I'm a title. Click here to edit me" template text. `/photography` has one real
-  Tom photograph (`IMG_1213.jpg`, imported); `/digital`'s only image is
-  `Tom's Art 049.jpg`, the same piece already shown under Graphic Design, so no
-  `digital/` folder was created.
+---
+
+# Open issues & discrepancies
+
+## 1. Drawings gallery — BLOCKED (the one real blocker)
+`/drawings` is the only gallery Wix renders inside a **cross-origin iframe**
+(`santa-galleries/target/Accordion/Accordion.html`), so its item list can't be read
+the way the other six were. Approaches already tried and **failed** — don't repeat:
+- raw server HTML (`curl`) — galleries are client-rendered, 0 ids
+- parent React fiber `memoizedProps` — only the page background image
+- patching `HTMLIFrameElement.prototype.contentWindow` to intercept `postMessage`,
+  including installing the hook *before* SPA-navigating to `/drawings` — 0 messages
+- `read_network_requests` — does not capture iframe subresource loads
+- the accessibility tree — stops at the iframe boundary
+
+**Two ways to finish it:**
+- **(a) [J]** open the gallery in the Wix editor and read off the image list; or
+- **(b) [C]** click through the live accordion, screenshot each slide, and match by eye
+  against `_not-on-wix-site/` (~15 min, needs no input from Jade).
+
+Confirmed member: **`Tom's Art 258.jpg`** (that drawing was visible on the live page).
+Everything else in `_not-on-wix-site/drawings/` is Claude's **visual guess**, not
+site-derived — treat it as a proposal.
+
+## 2. 50 exported files are not on the live site
+More than the "few" expected, and several look as strong as what's published. Staged —
+**not published** — in `../tomrubick-wix-import/_not-on-wix-site/<category>/`:
+`paintings` 12, `ceramics-3d` 9, `planets` 8, `drawings` 7, `graphic-design` 5,
+`photos-of-tom` 7, `studio-and-misc` 2. Adding previously-unseen work to a memorial
+site is Paulette's call. The `photos-of-tom` set would suit the Biography page.
+
+## 3. Paintings: Wix says 40, only 38 harvested
+The live counter reads **1/40** but repeated passes only ever yielded 38 unique media
+ids. Either 2 slides are repeats of images already counted, or 2 were missed. Worth a
+recount when the drawings gallery is being resolved — same tooling.
+
+## 4. Graphic Design has only 2 items — suspiciously few
+Tom coordinated the Graphic Design Program at Lane CC for 19 years, but `/graphic-design`
+publishes exactly 2 pieces. Likely far more exists (the export alone adds 5 candidates,
+including the cover he designed for Paulette's book *Rookie on the Battlefield*). Worth
+asking Paulette whether more design work should be gathered.
+
+## 5. `/photography` and `/digital` were never built out
+Both still carry Wix's default **"I'm a title. Click here to edit me"** template text.
+- `/photography` — one genuine Tom photograph (`IMG_1213.jpg`), imported.
+- `/digital` — its only image is `Tom's Art 049.jpg`, **the same piece already published
+  under Graphic Design**. No `digital/` folder was created. Decide whether `/digital`
+  should exist at all; if it's dropped, add a redirect to preserve the old URL.
+
+## 6. Per-artwork titles — partial data exists
+Titles are deferred, but Wix `alt` text preserved three real ones. If titles get added
+later, these are known-good:
+| Title | Imported as |
+|---|---|
+| Ophelia Reconsiders | `paintings/01-tom-s-art-212.jpg` |
+| Joshua | `paintings/07-joshua.jpg` |
+| Dad | `paintings/14-tom-s-art-085.jpg` |
+
+## 7. Resolved — no action needed
+- **Kent State degree** is an **MA**, not MFA. Wix's biography page was wrong; Tom's own
+  obituary was right. Fixed 2026-07-26. Don't "correct" it back.
+- **Obituary PDF** in the export (`thself-obit (4).pdf`) is byte-identical (md5
+  `6e5d818148fb98f258af097d50146ac9`) to the committed `public/obituary-tom-rubick.pdf`.
+- **No duplicates** in the 109-file export — all 108 images are distinct by checksum.
+  (109th file is the obituary PDF.)
+- **Wix footer credit** ("© 2023 by Peter Collins") was intentionally dropped — he built
+  only the old template and is not a content owner.
 
 ## Phase 6 — Cutover
 - [ ] [J] Point tomrubick.com DNS at Cloudflare Pages (keep Wix live until verified)
