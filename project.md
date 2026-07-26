@@ -48,15 +48,36 @@ Git-tracked Astro site hosted on Cloudflare Pages.
 - [ ] [J] Connect Cloudflare Pages; confirm *.pages.dev preview
 - [ ] [J] Review preview
 
-## Phase 5 — Bulk import  ← **critical path; everything else is small**
-- [ ] [J] Decide image source: Wix Media Manager export (best quality) vs. scraping
-      the live site's displayed JPEGs (fast, lower res)
-- [ ] [J] Provide all artwork, sorted into category folders
-- [ ] Missing folders entirely — no gallery page renders for these yet:
-      `graphic-design/`, `photography/`, `digital/`
-- [ ] [C] Convert sources to sRGB + web-ready sizes; import and rebuild
-- [ ] [C] Verify counts/order and total file count under Cloudflare's 20k cap
+## Phase 5 — Bulk import
+- [x] [J] Provide artwork (109 files exported from Wix → `../tomrubick-wix-import/`)
+- [x] [C] Convert sources to sRGB + web-ready sizes (max 2000px, q88); import & rebuild
+- [x] [C] Verify counts/order and total file count under Cloudflare's 20k cap
+      (58 images → 235 derivatives; far under the cap)
 - [ ] [J] Final review
+- [ ] [J] **Drawings gallery unresolved** — see below
+- [ ] [J] Decide on the 50 files that are NOT on the live Wix site
+      (staged in `../tomrubick-wix-import/_not-on-wix-site/<proposed-category>/`)
+
+### How the mapping was done (reliable, not guesswork)
+Wix serves back the *byte-identical* original files, so each gallery image was
+downloaded and md5-matched against the export. 58/58 matched exactly, 0 unresolved.
+Imported counts mirror the live site: paintings 38, planets 11, press 6,
+graphic-design 2, photography 1.
+
+### Drawings gallery — blocked
+`/drawings` is the one gallery Wix renders inside a **cross-origin iframe**
+(santa-galleries "Accordion"), so its item list could not be read the way the other
+six were. `Tom's Art 258.jpg` is confirmed in it (seen on the live page); the rest of
+the picks in `_not-on-wix-site/drawings/` are Claude's visual classification, not
+site-derived. Resolve by either listing it from the Wix editor or clicking through
+the live gallery and matching by eye.
+
+### Also found
+- `/photography` and `/digital` were never built out — both still carry Wix's default
+  "I'm a title. Click here to edit me" template text. `/photography` has one real
+  Tom photograph (`IMG_1213.jpg`, imported); `/digital`'s only image is
+  `Tom's Art 049.jpg`, the same piece already shown under Graphic Design, so no
+  `digital/` folder was created.
 
 ## Phase 6 — Cutover
 - [ ] [J] Point tomrubick.com DNS at Cloudflare Pages (keep Wix live until verified)
