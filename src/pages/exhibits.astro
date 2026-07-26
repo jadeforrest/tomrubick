@@ -1,20 +1,44 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-// NOTE (Phase 3): this list was captured from the current Wix site and is partial
-// (it currently covers ~2005–2007 plus a summary of earlier years). Verify and
-// complete it against the Wix "Exhibits" page before launch.
+// Full list captured from the Wix "Exhibits" page (33 entries, 1986–2007).
+// Ordered newest first. The Wix source itself was not strictly chronological;
+// entries are sorted descending here, with the multi-year Faculty Exhibit placed
+// after the last single-year entry it spans.
 const exhibits = [
   { year: '2007', text: '“The Last Exhibition,” a four-person show of nineteen paintings — Opus 6ix Gallery, Eugene (October)' },
-  { year: '2006', text: '“Look! Positive Sexuality in Art” — North Santiam Hall Gallery, Linn-Benton Community College, Albany (August)' },
-  { year: '2006', text: 'Community College Invitational — Opus 6ix Gallery, Eugene (January–March)' },
-  { year: '2005', text: '“12” Show” — Alder Gallery, Coburg (December)' },
-  { year: '2005', text: '“La Petite XIV” — Maude Kerns Art Center, Eugene' },
-  { year: '2005', text: '“Art for All Seasons” — Springfield Arts Commission (November–December)' },
-  { year: '2005', text: 'International Mail Art Exhibit — Jacobs Gallery, Eugene (September–October)' },
-  { year: '2005', text: 'Mayor’s Show — Gallery at the Airport, Eugene (September–October)' },
+  { year: '2006', text: '“Look! Positive Sexuality in Art” — North Santiam Hall Gallery, Linn-Benton Community College, Albany (August 2–30)' },
+  { year: '2006', text: '“Community College Invitational” — Opus 6ix Gallery, Eugene (January–March)' },
+  { year: '2005–06', text: '“La Petite XIV” — Maude Kerns Art Center, Eugene' },
+  { year: '2005', text: '“12″ Show” — Alder Gallery, Coburg (December)' },
+  { year: '2005', text: '“Art for All Seasons 2005” — Springfield Arts Commission, Springfield (November–December)' },
+  { year: '2005', text: '“International Mail Art Exhibit” — Jacobs Gallery, Eugene (September–October)' },
+  { year: '2005', text: '“2005 Mayor’s Show” — Gallery at the Airport, Eugene (September–October)' },
   { year: '2005', text: '“For the Birds” — La Follette Gallery, Eugene (August–December)' },
   { year: '2005', text: '“Pears: An Invitational Show” — DIVA Gallery, Eugene (June–July)' },
+  { year: '2005', text: '“Figuratively Speaking 2” — Maude Kerns Art Center, Eugene' },
+  { year: '2005', text: '“Artists Who Teach” — Downtown Initiative for the Visual Arts (DIVA), Eugene' },
+  { year: '2005', text: 'Solo exhibition' },
+  { year: '2004', text: '“100 Banners for 100 Years” — Eugene Public Library' },
+  { year: '2004', text: '“The Human Form” — Newport Visual Arts Center, Newport' },
+  { year: '2004', text: '“For the Love of Art: A Valentine’s Invitational” — DIVA Gallery, Eugene' },
+  { year: '2004', text: '“Pixel Rev(s)olution” — Mt. Hood Community College, Fireplace Gallery, Gresham' },
+  { year: '2003', text: '“No War Art Show” — New Zone Gallery, Eugene' },
+  { year: '2002–03', text: '“La Petite XI” — Alder Gallery, Coburg' },
+  { year: '2002', text: '“Bid for Beauty” — Maude Kerns Art Center, Eugene' },
+  { year: '2002', text: '“Figuratively Speaking” — Maude Kerns Art Center' },
+  { year: '2002', text: '“The Creative Path” — Eugene Airport Gallery' },
+  { year: '2001', text: '“Works on Paper” — Robert Canaga Gallery' },
+  { year: '2001', text: '“Nudes! All Nudes!” — Robert Canaga Gallery' },
+  { year: '2001', text: '“Figure 2001” — Pinckney Gallery' },
+  { year: '2000', text: '“Mayor’s Show 2000” — The Jacobs Gallery' },
+  { year: '2000', text: '“E-Art” — Maude Kerns Art Center' },
+  { year: '2000', text: '“Focus on the Figure” — Maude Kerns Art Center' },
+  { year: '2000', text: 'Three-artist show — The Reddick Gallery' },
+  { year: '1999', text: '“Computer Art” — Lane Community College Gallery' },
+  { year: '1988–present', text: 'Faculty Exhibit — Lane Community College Gallery' },
+  { year: '1987', text: '“The Layered Look: West Coast Collage” — University of Oregon Art Museum' },
+  { year: '1986', text: 'Three-artist show — Maude Kerns Art Center' },
 ];
 ---
 
@@ -31,11 +55,6 @@ const exhibits = [
         ))
       }
     </ul>
-    <p class="note">
-      Earlier exhibitions span 2000–2004 at venues including the Maude Kerns Art
-      Center, Lane Community College, and the University of Oregon, with shows dating
-      back to 1986.
-    </p>
   </div>
 </BaseLayout>
 
@@ -52,13 +71,17 @@ const exhibits = [
     border-bottom: 1px solid var(--rule);
   }
   .year {
-    flex: 0 0 3rem;
+    flex: 0 0 7rem;
     font-variant-numeric: tabular-nums;
     color: var(--muted);
   }
-  .note {
-    margin-top: 1.5rem;
-    color: var(--muted);
-    font-style: italic;
+  @media (max-width: 480px) {
+    .exhibits li {
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+    .year {
+      flex: none;
+    }
   }
 </style>

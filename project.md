@@ -8,7 +8,9 @@ Git-tracked Astro site hosted on Cloudflare Pages.
 ## Phase 0 — Prep & backup
 - [ ] [J] Confirm access to Wix account, domain registrar/DNS, and Facebook
 - [ ] [J] Full Wix site/content export (safety net before any changes)
-- [ ] [C] Download obituary PDF and any page copy/captions from Wix
+- [x] [C] Download obituary PDF into `public/obituary-tom-rubick.pdf`
+      ("P.S. I'm Dead" by Thomas Rubick, 1.0 MB; link verified serving 200)
+- [x] [C] Capture page copy from Wix (biography verified, full exhibits list captured)
 - [ ] [J] Provide 2–3 sample artworks to bootstrap
 
 ## Phase 1 — Scaffold
@@ -28,21 +30,30 @@ Git-tracked Astro site hosted on Cloudflare Pages.
 > artwork in Phase 5 (just delete the placeholders and drop real files in the folders).
 
 ## Phase 3 — Content pages
-- [ ] [C] Biography (+ obituary PDF link)
-- [ ] [C] Exhibits (verify full list against Wix)
-- [ ] [C] About this site (purpose + tribute quote; drop Wix credit)
-- [ ] [C] Contact component (obfuscated email; Paulette + Facebook)
-- [ ] [C] Landing page + custom 404
-- [ ] [J] Proofread all copy
+- [x] [C] Biography (+ obituary PDF link, now working)
+- [x] [C] Exhibits — full 33-entry list (1986–2007) backfilled from Wix
+- [x] [C] About this site (purpose + tribute quote; drop Wix credit)
+- [x] [C] Contact component (obfuscated email; Paulette + Facebook)
+- [x] [C] Landing page + custom 404
+- [ ] [J] Proofread all copy. One open copy decision:
+      - Faculty Exhibit year reads "1988–present", carried over verbatim from Wix
+        (`src/pages/exhibits.astro:39`). Reads oddly on a memorial site — pick an
+        end year?
+> Kent State degree is an **MA**, not MFA (Jade confirmed 2026-07-26; the Wix
+> biography page was wrong, Tom's own obituary was right).
 
 ## Phase 4 — Deploy (preview)
-- [ ] [J] Create GitHub repo (or authorize Claude)
-- [ ] [C] Push; verify build
+- [x] [J] Create GitHub repo — `git@github.com:jadeforrest/tomrubick.git`
+- [x] [C] Push; verify build (`main` pushed; build clean, 9 pages)
 - [ ] [J] Connect Cloudflare Pages; confirm *.pages.dev preview
 - [ ] [J] Review preview
 
-## Phase 5 — Bulk import
+## Phase 5 — Bulk import  ← **critical path; everything else is small**
+- [ ] [J] Decide image source: Wix Media Manager export (best quality) vs. scraping
+      the live site's displayed JPEGs (fast, lower res)
 - [ ] [J] Provide all artwork, sorted into category folders
+- [ ] Missing folders entirely — no gallery page renders for these yet:
+      `graphic-design/`, `photography/`, `digital/`
 - [ ] [C] Convert sources to sRGB + web-ready sizes; import and rebuild
 - [ ] [C] Verify counts/order and total file count under Cloudflare's 20k cap
 - [ ] [J] Final review
