@@ -1,7 +1,7 @@
 # Cloudflare Pages redirects.
 # Format: <from>  <to>  <status>
 #
-# Old Wix URLs preserved as-is via folder names (e.g. /press == Ceramics and 3D),
-# so no redirects are needed yet. Add entries here if any indexed Wix URL changes,
-# e.g. if /press is ever renamed:
-#   /press  /ceramics-and-3d  301
+# Old Wix URLs are otherwise preserved as-is via folder names, so this file only
+# needs an entry when an indexed URL changes.
+
+/press  /ceramics  301

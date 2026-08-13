@@ -15,8 +15,9 @@ const {
   ogImage,
 } = Astro.props;
 
-const galleryNav = getGalleryNav();
-const pages = [
+// Galleries first (in categories.ts order), then the static pages.
+const navItems = [
+  ...getGalleryNav().map((g) => ({ href: `/${g.slug}`, label: g.label })),
   { href: '/biography', label: 'Biography' },
   { href: '/exhibits', label: 'Exhibits' },
   { href: '/about-this-site', label: 'About this site' },
@@ -50,33 +51,10 @@ const fullTitle = title === 'Thomas Rubick' ? title : `${title} — Thomas Rubic
       <nav class="site-nav" aria-label="Primary">
         <ul>
           {
-            galleryNav.map((item) => (
-              <li class={item.children.length ? 'has-children' : ''}>
-                <a href={`/${item.slug}`} aria-current={here === `/${item.slug}` ? 'page' : undefined}>
-                  {item.label}
-                </a>
-                {item.children.length > 0 && (
-                  <ul class="submenu">
-                    {item.children.map((child) => (
-                      <li>
-                        <a
-                          href={`/${child.slug}`}
-                          aria-current={here === `/${child.slug}` ? 'page' : undefined}
-                        >
-                          {child.label}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </li>
-            ))
-          }
-          {
-            pages.map((p) => (
+            navItems.map((item) => (
               <li>
-                <a href={p.href} aria-current={here === p.href ? 'page' : undefined}>
-                  {p.label}
+                <a href={item.href} aria-current={here === item.href ? 'page' : undefined}>
+                  {item.label}
                 </a>
               </li>
             ))
@@ -170,10 +148,6 @@ const fullTitle = title === 'Thomas Rubick' ? title : `${title} — Thomas Rubic
         gap: 0.25rem 1.5rem;
       }
 
-      .site-nav li {
-        position: relative;
-      }
-
       .site-nav a {
         text-decoration: none;
         font-size: 0.82rem;
@@ -189,36 +163,6 @@ const fullTitle = title === 'Thomas Rubick' ? title : `${title} — Thomas Rubic
       .site-nav a:focus-visible,
       .site-nav a[aria-current='page'] {
         color: var(--fg);
-      }
-
-      /* submenu (e.g. Planets under Ceramics) */
-      .submenu {
-        list-style: none;
-        margin: 0;
-        padding: 0.4rem 0;
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        top: 100%;
-        background: var(--bg);
-        border: 1px solid var(--rule);
-        min-width: 9rem;
-        z-index: 20;
-        display: none;
-      }
-
-      .has-children:hover .submenu,
-      .has-children:focus-within .submenu {
-        display: block;
-      }
-
-      .submenu li {
-        text-align: center;
-      }
-
-      .submenu a {
-        padding: 0.35rem 0.75rem;
-        display: block;
       }
 
       /* ---- Main ---- */
@@ -270,15 +214,10 @@ const fullTitle = title === 'Thomas Rubick' ? title : `${title} — Thomas Rubic
       }
 
       @media (max-width: 600px) {
-        .submenu {
-          position: static;
-          transform: none;
-          border: none;
-          padding: 0;
-          display: block;
-          min-width: 0;
+        .site-nav > ul {
+          gap: 0.25rem 1rem;
         }
-        .submenu a {
+        .site-nav a {
           font-size: 0.72rem;
         }
       }

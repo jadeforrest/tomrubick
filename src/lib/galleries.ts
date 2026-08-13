@@ -22,7 +22,6 @@ export interface Gallery {
   /** Display label (from categories.ts, else Title-Cased slug). */
   label: string;
   order: number;
-  navParent?: string;
   artworks: Artwork[];
 }
 
@@ -86,7 +85,6 @@ function buildGalleries(): Gallery[] {
       slug,
       label: config?.label ?? titleCase(slug),
       order: config?.order ?? Number.POSITIVE_INFINITY,
-      navParent: config?.navParent,
       artworks,
     });
   }
@@ -113,26 +111,9 @@ export function artworkAlt(gallery: Gallery): string {
 export interface NavItem {
   slug: string;
   label: string;
-  children: NavItem[];
 }
 
-/** Nav tree: top-level galleries with `navParent` children nested beneath them. */
+/** Flat nav: every gallery is a top-level item, in `order`. */
 export function getGalleryNav(): NavItem[] {
-  const top: NavItem[] = [];
-  const childrenByParent = new Map<string, NavItem[]>();
-
-  for (const g of galleries) {
-    const item: NavItem = { slug: g.slug, label: g.label, children: [] };
-    if (g.navParent) {
-      if (!childrenByParent.has(g.navParent)) childrenByParent.set(g.navParent, []);
-      childrenByParent.get(g.navParent)!.push(item);
-    } else {
-      top.push(item);
-    }
-  }
-
-  for (const item of top) {
-    item.children = childrenByParent.get(item.slug) ?? [];
-  }
-  return top;
+  return galleries.map((g) => ({ slug: g.slug, label: g.label }));
 }
