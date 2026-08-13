@@ -9,8 +9,9 @@ Git-tracked Astro site hosted on Cloudflare Pages.
 
 # ▶ START HERE — next session
 
-Last worked: **2026-08-13**. Last commit: `615f6e3` (galleries completed).
-`origin/main` is at `58f6714`; **`615f6e3` is committed locally but not pushed.**
+Last worked: **2026-08-13**. Last commit: `966b6a1` (favicon).
+**Everything is pushed** — `origin/main` == local. Build verified clean:
+11 pages, 332 files, 64 MB in `dist/` (Cloudflare's cap is 20,000 files).
 
 **State:** the site is **content-complete and matches the live Wix site exactly**
 (11 pages, 61 artworks). Every gallery membership question is settled — see
@@ -21,9 +22,22 @@ paintings 40, drawings 1, graphic-design 2, ceramics 6, planets 11, photography 
 
 ### Do these in order
 
-1. **[J] Push and connect Cloudflare Pages** — `git push`, then hook the repo up and
-   confirm the `*.pages.dev` preview builds. This is now the only thing blocking a
-   reviewable URL.
+1. **[J] Connect Cloudflare Pages** — push is done; hook the repo up and confirm the
+   `*.pages.dev` preview builds. This is the only thing blocking a reviewable URL.
+   Settings to enter in the dashboard (Workers & Pages → Create → Pages → Connect to Git,
+   repo `jadeforrest/tomrubick`):
+   | Field | Value |
+   |---|---|
+   | Project name | `tomrubick` (→ `tomrubick.pages.dev`) |
+   | Production branch | `main` |
+   | Framework preset | Astro |
+   | Build command | `npm run build` |
+   | Build output directory | `dist` |
+   | Root directory | *(blank)* |
+   | Node version | pinned by `.nvmrc` (22); or set build var `NODE_VERSION=22` |
+
+   First build is slow (~3–6 min) — Cloudflare has no image cache, so all 61 images get
+   re-derived from scratch. Later builds are faster. **Do not touch DNS yet** (Phase 6).
 2. **[J] Decide on the 45 unpublished files** — *Open issue #2*.
 3. **[J] Proofread copy** + settle the "1988–present" exhibit year (`src/pages/exhibits.astro:39`).
 4. **[J] Glance at the new favicon** — done, but it's an aesthetic call. It's a crop of
