@@ -9,8 +9,8 @@ Git-tracked Astro site hosted on Cloudflare Pages.
 
 # ▶ START HERE — next session
 
-Last worked: **2026-08-13**. Last commit: `58f6714` (grid hover / single-image sizing).
-Local `main` is **ahead of `origin`** — nothing since `729e279` has been pushed.
+Last worked: **2026-08-13**. Last commit: `615f6e3` (galleries completed).
+`origin/main` is at `58f6714`; **`615f6e3` is committed locally but not pushed.**
 
 **State:** the site is **content-complete and matches the live Wix site exactly**
 (11 pages, 61 artworks). Every gallery membership question is settled — see
