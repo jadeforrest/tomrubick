@@ -11,6 +11,11 @@ const alt = artworkAlt(gallery);
 
 // Web-capped large image for the lightbox (never original/print resolution).
 const LARGE_MAX = 1800;
+// A gallery with a single work skips the masonry columns and is shown centered
+// at up to this width (never upscaled past the source).
+const SINGLE_MAX = 720;
+
+const single = gallery.artworks.length === 1;
 
 const items = await Promise.all(
   gallery.artworks.map(async (art) => {
@@ -28,22 +33,33 @@ const items = await Promise.all(
       href: large.src,
       width: large.attributes.width as number,
       height: large.attributes.height as number,
+      displayMax: Math.min(SINGLE_MAX, art.image.width),
     };
   }),
 );
+
+/** Thumbnail srcset widths, capped at the source so nothing is upscaled. */
+function thumbWidths(art: { image: { width: number } }, displayMax: number): number[] {
+  if (!single) return [280, 560];
+  return [...new Set([displayMax, displayMax * 2])].filter((w) => w <= art.image.width);
+}
 ---
 
-<ul class="grid" id="gallery">
+<ul class:list={['grid', { 'grid--single': single }]} id="gallery">
   {
-    items.map(({ art, href, width, height }) => (
-      <li class="grid-item">
+    items.map(({ art, href, width, height, displayMax }) => (
+      <li class="grid-item" style={single ? `max-width: ${displayMax}px` : undefined}>
         <a href={href} data-pswp-width={width} data-pswp-height={height} target="_blank" rel="noopener">
           <Image
             src={art.image}
             alt={alt}
-            widths={[280, 560]}
-            sizes="(max-width: 600px) 45vw, (max-width: 1000px) 30vw, 260px"
-            loading="lazy"
+            widths={thumbWidths(art, displayMax)}
+            sizes={
+              single
+                ? `(max-width: 760px) 92vw, ${displayMax}px`
+                : '(max-width: 600px) 45vw, (max-width: 1000px) 30vw, 260px'
+            }
+            loading={single ? 'eager' : 'lazy'}
           />
         </a>
       </li>
@@ -60,20 +76,33 @@ const items = await Promise.all(
     columns: 4 240px;
     column-gap: 1.25rem;
   }
+  /* A single work: no columns, centered, capped at its own source width. */
+  .grid--single {
+    columns: auto;
+    display: flex;
+    justify-content: center;
+  }
   .grid-item {
     break-inside: avoid;
     margin: 0 0 1.25rem;
+  }
+  .grid--single .grid-item {
+    margin: 0;
+    width: 100%;
   }
   .grid-item a {
     display: block;
     background: #fff;
     border: 1px solid var(--rule);
-    transition: box-shadow 0.18s ease, transform 0.18s ease;
+    transition: box-shadow 0.18s ease, border-color 0.18s ease;
   }
+  /* No transform here: a composited layer inside a CSS multi-column container
+     gets painted/hit-tested against the unfragmented box in Chrome, which made
+     column-topping thumbnails flicker and stray shadows appear. */
   .grid-item a:hover,
   .grid-item a:focus-visible {
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
-    transform: translateY(-2px);
+    border-color: var(--muted);
     outline: none;
   }
   .grid-item a:focus-visible {
