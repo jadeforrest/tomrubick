@@ -95,8 +95,8 @@ except for the Drawings gallery. Nothing is deployed yet.
 ### How the mapping was done (reliable, not guesswork)
 Wix serves back the *byte-identical* original files, so each gallery image was
 downloaded and md5-matched against the export. 58/58 matched exactly, 0 unresolved.
-Imported counts mirror the live site: paintings 38, planets 11, press 6,
-graphic-design 2, photography 1.
+Imported counts mirror the live site: paintings 38, planets 11, ceramics 6
+(imported as `press`, since renamed), graphic-design 2, photography 1.
 
 ### Drawings gallery — blocked
 `/drawings` is the one gallery Wix renders inside a **cross-origin iframe**
@@ -182,7 +182,8 @@ later, these are known-good:
 ## Future
 - [ ] Per-artwork titles/captions (filename→title or captions.json sidecar)
 - [ ] Optional: medium/year/dimensions metadata
-- [ ] Optional: rename /press → /ceramics-and-3d with 301 redirect
+- [x] [C] Rename /press → /ceramics with 301 redirect; "Ceramics" and "Planets" are now
+      two plain top-level nav items (the Ceramics→Planets dropdown was removed)
 
 ---
 

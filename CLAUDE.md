@@ -16,10 +16,12 @@ migration of tomrubick.com **off Wix** to a Git-tracked **Astro** static site ho
 - **Galleries are auto-discovered from folders.** Put images in
   `src/assets/galleries/<category>/`. The **folder name IS the URL slug**.
 - URL slugs are kept **identical to the old Wix URLs** (don't rename without a redirect):
-  `/paintings`, `/drawings`, `/graphic-design`, `/press` (= "Ceramics and 3D"),
-  `/planets` (flat URL, shown as a submenu of Ceramics), `/photography`, `/digital`.
-- Pretty labels, nav order, and nav grouping live in `src/lib/categories.ts`
-  (display only — never changes URLs). Folders not listed there still work (auto label).
+  `/paintings`, `/drawings`, `/graphic-design`, `/planets`, `/photography`, `/digital`.
+  The one exception: the Wix `/press` gallery ("Ceramics and 3D") was renamed to
+  `/ceramics`, with a 301 from `/press` in `public/_redirects`.
+- The nav is **flat** — every gallery is a top-level item, no dropdowns.
+- Pretty labels and nav order live in `src/lib/categories.ts` (display only — never
+  changes URLs). Folders not listed there still work (auto label).
 - Discovery + sorting (numeric filename prefix `01-`, `02-` then alphabetical) +
   a reserved-slug guard are in `src/lib/galleries.ts`.
 - Browsing: thumbnail masonry grid (`src/components/ArtworkGrid.astro`) → **PhotoSwipe**
