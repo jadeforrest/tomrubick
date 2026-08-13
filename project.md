@@ -26,9 +26,8 @@ paintings 40, drawings 1, graphic-design 2, ceramics 6, planets 11, photography 
    reviewable URL.
 2. **[J] Decide on the 45 unpublished files** — *Open issue #2*.
 3. **[J] Proofread copy** + settle the "1988–present" exhibit year (`src/pages/exhibits.astro:39`).
-4. **[C] Favicon** — currently a generic `public/favicon.svg`. Crop a detail from one of
-   the artworks (the Planets series is the obvious candidate — bold, round, reads at
-   16px). Needs to work on both light and dark browser chrome.
+4. **[J] Glance at the new favicon** — done, but it's an aesthetic call. It's a crop of
+   the ceramic sun from Planets (`01-img-7339.jpg`). See "Future" below.
 5. **[J] Cutover** — Phase 6, only once the preview looks right.
 
 ### How gallery membership was settled (do it this way, not by clicking)
@@ -210,12 +209,17 @@ paintings #1. Noted so nobody "fixes" the repetition later without meaning to.
 - [ ] [J] Cancel Wix subscription once stable
 
 ## Future
-- [ ] **[C] Favicon from an artwork.** `public/favicon.svg` is still the generic
-      placeholder. Crop a detail from one of Tom's pieces instead — the **Planets**
-      series is the natural fit (circular, high-contrast, still legible at 16×16).
-      Ship a 180px `apple-touch-icon.png` and a 32px PNG alongside it, and check it
-      against both light and dark browser chrome. `<link>` tags go in
-      `src/layouts/BaseLayout.astro`.
+- [x] **[C] Favicon from an artwork** (2026-08-13). The generic "TR" `public/favicon.svg`
+      is deleted. It's now a crop of the **ceramic sun** from Planets
+      (`planets/01-img-7339.jpg`, crop `left:708 top:130 560×560`, saturation ×1.1).
+      Shipped: `favicon.ico` (16/32/48), `favicon-16.png`, `favicon-32.png`,
+      `apple-touch-icon.png` (180). `<link>` tags in `src/layouts/BaseLayout.astro`.
+      Verified serving 200 at the right dimensions, and legible at 16px on both light
+      and dark browser chrome.
+      > Why the sun and not one of the spheres: a favicon needs a *silhouette*, not a
+      > texture. The star points read at 16px; the spiky red ball and the yellow Saturn
+      > both collapse into a blob. If Paulette wants a different piece, only the crop
+      > rectangle above needs to change.
 - [ ] Per-artwork titles/captions (filename→title or captions.json sidecar)
       — four real titles are already known, see open issue #6
 - [ ] Optional: medium/year/dimensions metadata
