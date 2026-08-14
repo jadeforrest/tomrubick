@@ -13,36 +13,26 @@ Last worked: **2026-08-13**. Last commit: `966b6a1` (favicon).
 **Everything is pushed** — `origin/main` == local. Build verified clean:
 11 pages, 332 files, 64 MB in `dist/` (Cloudflare's cap is 20,000 files).
 
-**State:** the site is **content-complete and matches the live Wix site exactly**
-(11 pages, 61 artworks). Every gallery membership question is settled — see
-"How gallery membership was settled" below. Nothing is deployed yet.
+**State:** the site is **content-complete and deployed to a preview URL**:
+**https://tomrubick.pages.dev**. It matches the live Wix site exactly (11 pages,
+61 artworks); every gallery membership question is settled — see "How gallery
+membership was settled" below. `tomrubick.com` still points at Wix (Phase 6).
 
 Per-gallery counts, ours vs. Wix — **all match**:
 paintings 40, drawings 1, graphic-design 2, ceramics 6, planets 11, photography 1.
 
 ### Do these in order
 
-1. **[J] Connect Cloudflare Pages** — push is done; hook the repo up and confirm the
-   `*.pages.dev` preview builds. This is the only thing blocking a reviewable URL.
-   Settings to enter in the dashboard (Workers & Pages → Create → Pages → Connect to Git,
-   repo `jadeforrest/tomrubick`):
-   | Field | Value |
-   |---|---|
-   | Project name | `tomrubick` (→ `tomrubick.pages.dev`) |
-   | Production branch | `main` |
-   | Framework preset | Astro |
-   | Build command | `npm run build` |
-   | Build output directory | `dist` |
-   | Root directory | *(blank)* |
-   | Node version | pinned by `.nvmrc` (22); or set build var `NODE_VERSION=22` |
-
-   First build is slow (~3–6 min) — Cloudflare has no image cache, so all 61 images get
-   re-derived from scratch. Later builds are faster. **Do not touch DNS yet** (Phase 6).
+1. **[J] Review the preview** at https://tomrubick.pages.dev, and send it to Paulette.
+   Every push to `main` now rebuilds it automatically; other branches get their own
+   preview URLs.
 2. **[J] Decide on the 45 unpublished files** — *Open issue #2*.
 3. **[J] Proofread copy** + settle the "1988–present" exhibit year (`src/pages/exhibits.astro:39`).
-4. **[J] Glance at the new favicon** — done, but it's an aesthetic call. It's a crop of
+4. **[J] Decide `/digital`** — drop it with a 301 to `/graphic-design`, or keep a stub.
+   *Open issue #5*; recommendation is to drop it.
+5. **[J] Glance at the new favicon** — done, but it's an aesthetic call. It's a crop of
    the ceramic sun from Planets (`01-img-7339.jpg`). See "Future" below.
-5. **[J] Cutover** — Phase 6, only once the preview looks right.
+6. **[J] Cutover** — Phase 6, only once the preview looks right.
 
 ### How gallery membership was settled (do it this way, not by clicking)
 The earlier approach — driving the live site and harvesting media ids from the DOM — is
@@ -109,9 +99,25 @@ re-verified every other gallery: **61/61 images matched an export file, 0 misses
 
 ## Phase 4 — Deploy (preview)
 - [x] [J] Create GitHub repo — `git@github.com:jadeforrest/tomrubick.git`
-- [x] [C] Push; verify build (`main` pushed; build clean, 9 pages)
-- [ ] [J] Connect Cloudflare Pages; confirm *.pages.dev preview
+- [x] [C] Push; verify build (`main` pushed; build clean, 11 pages)
+- [x] [J] Connect Cloudflare Pages — **live at https://tomrubick.pages.dev** (2026-08-13)
 - [ ] [J] Review preview
+
+### Deploy setup (as configured)
+Cloudflare **Pages** project `tomrubick`, Git-connected to `jadeforrest/tomrubick`,
+production branch `main`. Build command `npm run build`, output directory `dist`,
+root directory blank. Node is pinned to 22 by `.nvmrc`.
+
+Cloudflare offers two paths and they are not interchangeable — we took **Pages**
+(Workers & Pages → Create application → Pages → Connect to Git), which asks only for a
+build command. The newer **Workers Builds** path ("import a repository") also asks for a
+*deploy command* (`npx wrangler deploy`) and requires a `wrangler.jsonc` in the repo. We
+have no such file; if one ever appears, this project moved to Workers.
+
+Verified on the deployed site, 2026-08-13: all 11 pages 200; `/press` → `/ceramics` 301
+(the `_redirects` file works); bare paths 308 to trailing-slash; `sitemap-index.xml`,
+`favicon.ico`, `apple-touch-icon.png`, and `obituary-tom-rubick.pdf` all serve;
+unknown paths serve our own 404 page; image derivatives serve as `image/webp`.
 
 ## Phase 5 — Bulk import
 - [x] [J] Provide artwork (109 files exported from Wix → `../tomrubick-wix-import/`)
