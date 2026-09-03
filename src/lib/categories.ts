@@ -17,5 +17,4 @@ export const categories: Record<string, CategoryConfig> = {
   ceramics: { label: 'Ceramics', order: 4 }, // was the Wix /press slug; 301 in public/_redirects
   planets: { label: 'Planets', order: 5 },
   photography: { label: 'Photography', order: 6 },
-  digital: { label: 'Digital', order: 7 },
 };

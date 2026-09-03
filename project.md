@@ -9,7 +9,7 @@ Git-tracked Astro site hosted on Cloudflare Pages.
 
 # ▶ START HERE — next session
 
-Last worked: **2026-08-13**. Last commit: `966b6a1` (favicon).
+Last worked: **2026-09-03**. Last commit: `cc3c2b9` (Cloudflare Pages live).
 **Everything is pushed** — `origin/main` == local. Build verified clean:
 11 pages, 332 files, 64 MB in `dist/` (Cloudflare's cap is 20,000 files).
 
@@ -27,12 +27,11 @@ paintings 40, drawings 1, graphic-design 2, ceramics 6, planets 11, photography 
    Every push to `main` now rebuilds it automatically; other branches get their own
    preview URLs.
 2. **[J] Decide on the 45 unpublished files** — *Open issue #2*.
-3. **[J] Proofread copy** + settle the "1988–present" exhibit year (`src/pages/exhibits.astro:39`).
-4. **[J] Decide `/digital`** — drop it with a 301 to `/graphic-design`, or keep a stub.
-   *Open issue #5*; recommendation is to drop it.
-5. **[J] Glance at the new favicon** — done, but it's an aesthetic call. It's a crop of
+3. **[J] Proofread copy.** The "1988–present" exhibit year is **settled — leave it**
+   (2026-09-03): the faculty exhibit is presumed ongoing.
+4. **[J] Glance at the new favicon** — done, but it's an aesthetic call. It's a crop of
    the ceramic sun from Planets (`01-img-7339.jpg`). See "Future" below.
-6. **[J] Cutover** — Phase 6, only once the preview looks right.
+5. **[J] Cutover** — Phase 6, only once the preview looks right.
 
 ### How gallery membership was settled (do it this way, not by clicking)
 The earlier approach — driving the live site and harvesting media ids from the DOM — is
@@ -90,10 +89,9 @@ re-verified every other gallery: **61/61 images matched an export file, 0 misses
 - [x] [C] About this site (purpose + tribute quote; drop Wix credit)
 - [x] [C] Contact component (obfuscated email; Paulette + Facebook)
 - [x] [C] Landing page + custom 404
-- [ ] [J] Proofread all copy. One open copy decision:
-      - Faculty Exhibit year reads "1988–present", carried over verbatim from Wix
-        (`src/pages/exhibits.astro:39`). Reads oddly on a memorial site — pick an
-        end year?
+- [ ] [J] Proofread all copy. (The one open copy decision is now closed: the Faculty
+      Exhibit "1988–present" at `src/pages/exhibits.astro:39` **stays as-is** — Jade,
+      2026-09-03, the exhibit is presumed to still run.)
 > Kent State degree is an **MA**, not MFA (Jade confirmed 2026-07-26; the Wix
 > biography page was wrong, Tom's own obituary was right).
 
@@ -192,12 +190,14 @@ Neither page uses a gallery component; each is a single bare image.
 - `/photography` — one genuine Tom photograph (`IMG_1213.jpg`), imported. Its Wix
   heading is the mangled string `Titl"Super Fork"e. Double click me.` — i.e. Tom titled
   the piece **"Super Fork"** and it got typed into the placeholder. Worth using.
-- `/digital` — its only image is `Tom's Art 049.jpg`, **byte-identical (md5-confirmed) to
-  the piece already published under Graphic Design**. No `digital/` folder was created.
-  **[J] Decide:** drop `/digital` (and add a 301 to `/graphic-design` in
-  `public/_redirects`, same pattern as `/press` → `/ceramics`), or keep it as a stub.
-  Recommendation: drop it — a one-item gallery duplicating another gallery isn't worth a
-  nav slot.
+- `/digital` — **RESOLVED (2026-09-03): dropped, with a 301 to `/graphic-design`.**
+  Its only image is `Tom's Art 049.jpg`, **byte-identical (md5-confirmed) to the piece
+  already published under Graphic Design**, so no `digital/` folder was ever created and
+  the page never existed here — it was never in the nav either (the nav is built from
+  folders that contain images, so `categories.ts` alone can't produce one). The only
+  live question was inbound links to the Wix URL after cutover; those now redirect
+  instead of hitting our 404. The dead `digital` entry in `src/lib/categories.ts` was
+  removed at the same time.
 
 ## 6. Per-artwork titles — partial data exists
 Titles are deferred, but Wix `alt`/`title` text preserved four real ones. If titles get

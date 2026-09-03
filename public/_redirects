@@ -5,3 +5,7 @@
 # needs an entry when an indexed URL changes.
 
 /press  /ceramics  301
+
+# Wix published /digital, but its only image is byte-identical to a piece already
+# in Graphic Design, so the gallery was never rebuilt here.
+/digital  /graphic-design  301
