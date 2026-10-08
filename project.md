@@ -9,7 +9,7 @@ Git-tracked Astro site hosted on Cloudflare Pages.
 
 # ▶ START HERE — next session
 
-Last worked: **2026-09-03**. Last commit: `cc3c2b9` (Cloudflare Pages live).
+Last worked: **2026-10-08**. Last commit: `cf9fc93` (`/digital` → `/graphic-design` 301).
 **Everything is pushed** — `origin/main` == local. Build verified clean:
 11 pages, 332 files, 64 MB in `dist/` (Cloudflare's cap is 20,000 files).
 
@@ -23,15 +23,16 @@ paintings 40, drawings 1, graphic-design 2, ceramics 6, planets 11, photography 
 
 ### Do these in order
 
-1. **[J] Review the preview** at https://tomrubick.pages.dev, and send it to Paulette.
-   Every push to `main` now rebuilds it automatically; other branches get their own
-   preview URLs.
-2. **[J] Decide on the 45 unpublished files** — *Open issue #2*.
-3. **[J] Proofread copy.** The "1988–present" exhibit year is **settled — leave it**
-   (2026-09-03): the faculty exhibit is presumed ongoing.
-4. **[J] Glance at the new favicon** — done, but it's an aesthetic call. It's a crop of
-   the ceramic sun from Planets (`01-img-7339.jpg`). See "Future" below.
-5. **[J] Cutover** — Phase 6, only once the preview looks right.
+1. ~~**[J] Review the preview** and send it to Paulette.~~ **Done 2026-10-08 — Paulette
+   liked it.** Every push to `main` rebuilds https://tomrubick.pages.dev automatically;
+   other branches get their own preview URLs.
+2. ~~**[J] Decide on the 45 unpublished files**~~ **Decided 2026-10-08: skip all for
+   now.** Nothing new gets published; see *Open issue #2*.
+3. ~~**[J] Proofread copy.**~~ **Done 2026-10-08.** ("1988–present" exhibit year stays.)
+4. ~~**[J] Glance at the new favicon**~~ **Approved 2026-10-08.** Crop of the ceramic
+   sun from Planets (`01-img-7339.jpg`). See "Future" below.
+5. **[J] Cutover — this is what's left.** Do Phase 0 first (confirm account access +
+   full Wix export as a safety net), then Phase 6.
 
 ### How gallery membership was settled (do it this way, not by clicking)
 The earlier approach — driving the live site and harvesting media ids from the DOM — is
@@ -89,7 +90,7 @@ re-verified every other gallery: **61/61 images matched an export file, 0 misses
 - [x] [C] About this site (purpose + tribute quote; drop Wix credit)
 - [x] [C] Contact component (obfuscated email; Paulette + Facebook)
 - [x] [C] Landing page + custom 404
-- [ ] [J] Proofread all copy. (The one open copy decision is now closed: the Faculty
+- [x] [J] Proofread all copy (done 2026-10-08). (The one open copy decision is now closed: the Faculty
       Exhibit "1988–present" at `src/pages/exhibits.astro:39` **stays as-is** — Jade,
       2026-09-03, the exhibit is presumed to still run.)
 > Kent State degree is an **MA**, not MFA (Jade confirmed 2026-07-26; the Wix
@@ -99,7 +100,7 @@ re-verified every other gallery: **61/61 images matched an export file, 0 misses
 - [x] [J] Create GitHub repo — `git@github.com:jadeforrest/tomrubick.git`
 - [x] [C] Push; verify build (`main` pushed; build clean, 11 pages)
 - [x] [J] Connect Cloudflare Pages — **live at https://tomrubick.pages.dev** (2026-08-13)
-- [ ] [J] Review preview
+- [x] [J] Review preview (Paulette approved, 2026-10-08)
 
 ### Deploy setup (as configured)
 Cloudflare **Pages** project `tomrubick`, Git-connected to `jadeforrest/tomrubick`,
@@ -127,8 +128,8 @@ unknown paths serve our own 404 page; image derivatives serve as `image/webp`.
 - [x] [C] **Paintings 40/40 — RESOLVED.** The two that earlier passes missed are now
       imported (appended as `39-`, `40-`; exact Wix order wasn't worth a renumber).
 - [ ] [J] Final review
-- [ ] [J] Decide on the 45 files that are NOT on the live Wix site
-      (staged in `../tomrubick-wix-import/_not-on-wix-site/<proposed-category>/`)
+- [x] [J] Decide on the 45 files that are NOT on the live Wix site — **skip all for now**
+      (2026-10-08). Still staged in `../tomrubick-wix-import/_not-on-wix-site/<category>/`
 
 ### Import log — 2026-08-13
 Added, all md5-confirmed as live-site content:
@@ -162,7 +163,16 @@ So the gallery was never "missing 6 drawings" — a one-item gallery is simply w
 site had. The other four files in `_not-on-wix-site/drawings/` remain unpublished
 candidates for Paulette (issue #2), not omissions.
 
-## 2. 45 exported files are not on the live site
+## 2. 45 exported files are not on the live site — DEFERRED (2026-10-08)
+**Decision: skip all of them for now.** The site launches matching Wix exactly. The files
+stay staged for a later pass. Jade had started sorting before deciding; that partial sort
+is kept as-is (a head start, not a decision):
+- `_skip/` (8): `2009 020.JPG`, `IMG_0849.JPG`, `IMG_7453.JPG`, `Tom's Art 414.jpg`,
+  `Johnson_front_lo.jpg`, `M_wholesunwithborder.jpg`, `coverart.jpg`, `rookie_header.jpg`
+- moved to `paintings/`: `2009 016.JPG` (was drawings), `IMG_7476.JPG` (was ceramics)
+- `ceramics-3d/` renamed `ceramics/` to match the gallery slug.
+
+Original staging counts below.
 Several look as strong as what's published. Staged — **not published** — in
 `../tomrubick-wix-import/_not-on-wix-site/<category>/`:
 `paintings` 11, `ceramics-3d` 9, `planets` 8, `photos-of-tom` 6, `graphic-design` 5,
