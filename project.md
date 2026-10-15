@@ -9,7 +9,8 @@ Git-tracked Astro site hosted on Cloudflare Pages.
 
 # ▶ START HERE — next session
 
-Last worked: **2026-10-08**. Last commit: `cf9fc93` (`/digital` → `/graphic-design` 301).
+Last worked: **2026-10-15** (mapped where the domain lives — see "Where tomrubick.com
+lives" under Phase 6).
 **Everything is pushed** — `origin/main` == local. Build verified clean:
 11 pages, 332 files, 64 MB in `dist/` (Cloudflare's cap is 20,000 files).
 
@@ -33,6 +34,8 @@ paintings 40, drawings 1, graphic-design 2, ceramics 6, planets 11, photography 
    sun from Planets (`01-img-7339.jpg`). See "Future" below.
 5. **[J] Cutover — this is what's left.** Do Phase 0 first (confirm account access +
    full Wix export as a safety net), then Phase 6.
+   **First step: get GoDaddy access from Paulette** — the domain is registered there,
+   and nothing in Phase 6 can happen without it.
 
 ### How gallery membership was settled (do it this way, not by clicking)
 The earlier approach — driving the live site and harvesting media ids from the DOM — is
@@ -61,7 +64,10 @@ re-verified every other gallery: **61/61 images matched an export file, 0 misses
 ---
 
 ## Phase 0 — Prep & backup
-- [ ] [J] Confirm access to Wix account, domain registrar/DNS, and Facebook
+- [ ] [J] **Get GoDaddy access from Paulette** (the registrar — see "Where tomrubick.com
+      lives" under Phase 6). Do this first.
+- [ ] [J] Confirm access to Wix account (runs the DNS today) and Facebook
+- [ ] [J] Ask Paulette whether anyone still uses a `@tomrubick.com` mailbox (GoDaddy email)
 - [ ] [J] Full Wix site/content export (safety net before any changes)
 - [x] [C] Download obituary PDF into `public/obituary-tom-rubick.pdf`
       ("P.S. I'm Dead" by Thomas Rubick, 1.0 MB; link verified serving 200)
@@ -234,9 +240,35 @@ paintings #1. Noted so nobody "fixes" the repetition later without meaning to.
   only the old template and is not a content owner.
 
 ## Phase 6 — Cutover
-- [ ] [J] Point tomrubick.com DNS at Cloudflare Pages (keep Wix live until verified)
-- [ ] [J] Verify SSL + all URLs resolve
-- [ ] [J] Cancel Wix subscription once stable
+- [ ] [J] Get GoDaddy access from Paulette (Phase 0 — blocks everything below)
+- [ ] [J] Add tomrubick.com as a zone in Cloudflare
+- [ ] [J] Check the imported records include the GoDaddy email ones (MX `0 smtp.secureserver.net`,
+      MX `10 mailstore1.secureserver.net`, CNAME `email` → `email.secureserver.net`);
+      add them by hand if not
+- [ ] [J] In GoDaddy, turn off Domain Protection / the update lock, then change the
+      nameservers from Wix to the two Cloudflare assigns (keep Wix live until verified)
+- [ ] [J] Attach `tomrubick.com` + `www.tomrubick.com` as custom domains on the
+      `tomrubick` Pages project
+- [ ] [C] Verify SSL + all URLs resolve (11 pages, `/press` and `/digital` 301s, obituary
+      PDF, sitemap, favicons, 404) and that MX records still answer
+- [ ] [J] Cancel Wix subscription once stable — **keep GoDaddy auto-renew on**
+
+### Where tomrubick.com lives (checked 2026-10-15 via dig + whois)
+| Piece | Where | Evidence |
+|---|---|---|
+| Registrar | **GoDaddy** | registered 2015-09-14, expires **2027-09-14** |
+| DNS | **Wix** | nameservers `ns14.wixdns.net`, `ns15.wixdns.net` |
+| Website | **Wix** | apex → `185.230.63.x`; `www` → `cdn3.wixdns.net` |
+| Email | **GoDaddy** | MX → `secureserver.net`; `email.tomrubick.com` → GoDaddy webmail |
+
+- **Wix is not the registrar**, so cancelling Wix doesn't put the domain at risk.
+- **The email records live in Wix's DNS today.** Moving nameservers drops them unless
+  they're recreated at Cloudflare first — that's the one way this cutover breaks something
+  that isn't the website.
+- **The domain is locked at GoDaddy** (`clientUpdateProhibited`, plus delete/renew/transfer
+  locks — GoDaddy's Domain Protection). Expect to unlock before the nameserver change.
+- **Why move DNS to Cloudflare** rather than just repointing records at Wix: Cloudflare
+  Pages can only serve the bare apex `tomrubick.com` when the zone is on Cloudflare.
 
 ## Future
 - [x] **[C] Favicon from an artwork** (2026-08-13). The generic "TR" `public/favicon.svg`
