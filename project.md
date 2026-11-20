@@ -125,7 +125,7 @@ Verified on the deployed site, 2026-08-13: all 11 pages 200; `/press` → `/cera
 unknown paths serve our own 404 page; image derivatives serve as `image/webp`.
 
 ## Phase 5 — Bulk import
-- [x] [J] Provide artwork (109 files exported from Wix → `../tomrubick-wix-import/`)
+- [x] [J] Provide artwork (109 files exported from Wix → `../archive/tomrubick-wix-import/`)
 - [x] [C] Convert sources to sRGB + web-ready sizes (max 2000px, q88); import & rebuild
 - [x] [C] Verify counts/order and total file count under Cloudflare's 20k cap
       (61 images → ~250 derivatives; far under the cap)
@@ -135,7 +135,7 @@ unknown paths serve our own 404 page; image derivatives serve as `image/webp`.
       imported (appended as `39-`, `40-`; exact Wix order wasn't worth a renumber).
 - [ ] [J] Final review
 - [x] [J] Decide on the 45 files that are NOT on the live Wix site — **skip all for now**
-      (2026-10-08). Still staged in `../tomrubick-wix-import/_not-on-wix-site/<category>/`
+      (2026-10-08). Still staged in `../archive/tomrubick-wix-import/_not-on-wix-site/<category>/`
 
 ### Import log — 2026-08-13
 Added, all md5-confirmed as live-site content:
@@ -180,7 +180,7 @@ is kept as-is (a head start, not a decision):
 
 Original staging counts below.
 Several look as strong as what's published. Staged — **not published** — in
-`../tomrubick-wix-import/_not-on-wix-site/<category>/`:
+`../archive/tomrubick-wix-import/_not-on-wix-site/<category>/`:
 `paintings` 11, `ceramics-3d` 9, `planets` 8, `photos-of-tom` 6, `graphic-design` 5,
 `drawings` 4, `studio-and-misc` 2. Adding previously-unseen work to a memorial site is
 Paulette's call.
